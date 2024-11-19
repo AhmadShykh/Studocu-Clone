@@ -6,5 +6,17 @@
     <string name="create_account_description">Create an account to follow modules and build Studylists. Tell us where you study to be recommended top-rated materials from your university or school.</string>
     <string name="continue_text">Continue</string>
     <string name="search_text">Search</string>
+    <string name="my_favourites">My Favourites</string>
     <string name="chats_text">Chats</string>
+    <string name="tap_to_learn">Tap to learn mo...</string>
+    <string name="saved_docs">Your saved documents</string>
+    <string name="study_lists">Studylists</string>
+    <string name="study_list">Studylist</string>
+    <string name="recent_docs">Recent Documents</string>
+    <string name="login_to_continue">Login or Register to continue where you left off</string>
+    <string name="recently_viewed">Recently Viewed</string>
+    <string name="empty_message_title">It is a bit empty here</string>
+    <string name="empty_message_description">You are currently browsing as a guest. Login or Register to experience Studocu at it\'s fullest.</string>
+    <string name="sign_in">Sign in</string>
+
 </resources>
