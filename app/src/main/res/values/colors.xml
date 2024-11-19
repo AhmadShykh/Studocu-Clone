@@ -6,8 +6,15 @@
     <color name="blue">#2196F3</color>
     <color name="dark_blue">#157AC8</color>
     <color name="gray">#696868</color>
+    <color name="dark_gray">#424242</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dark_orange">#B44702</color>
+    <color name="orange">#CE3401</color>
+    <color name="light_orange">#FFB39B</color>
+    <color name="original_orange">#D5481C</color>
+    <color name="light_gray">#DCDCDC</color>
+
 </resources>
