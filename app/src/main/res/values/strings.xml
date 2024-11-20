@@ -18,5 +18,9 @@
     <string name="empty_message_title">It is a bit empty here</string>
     <string name="empty_message_description">You are currently browsing as a guest. Login or Register to experience Studocu at it\'s fullest.</string>
     <string name="sign_in">Sign in</string>
-
+    <string name="terms">Terms of use</string>
+    <string name="privacy">Privacy policy</string>
+    <string name="contact">Contact us</string>
+    <string name="feedback">Give feedback</string>
+    <string name="version">Version: 5.3.0.5234</string>
 </resources>
