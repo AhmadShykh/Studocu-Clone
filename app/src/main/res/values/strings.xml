@@ -25,4 +25,13 @@
     <string name="delete">Delete account</string>
     <string name="logout">Logout</string>
     <string name="version">Version: 5.3.0.5234</string>
+    <string name="user_name">Abdul Wahab</string>
+    <string name="college_name">National University of Computer and Emerging Sciences, 2021</string>
+    <string name="uploads">Uploads</string>
+    <string name="modules">Modules</string>
+    <string name="books">Books</string>
+    <string name="studylists_count">0</string>
+    <string name="uploads_count">0</string>
+    <string name="modules_count">0</string>
+    <string name="books_count">0</string>
 </resources>
