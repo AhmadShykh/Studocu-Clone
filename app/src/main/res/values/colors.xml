@@ -17,4 +17,6 @@
     <color name="original_orange">#D5481C</color>
     <color name="light_gray">#DCDCDC</color>
     <color name="lighter_gray">#EDECEC</color>
+    <color name="darker_gray">#2A2A2A</color>
+    <color name="darkest_gray">#1A1A1A</color>
 </resources>
