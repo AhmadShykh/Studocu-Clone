@@ -13,4 +13,5 @@
         android:theme="@style/Theme.Studoc_Clone"
         tools:targetApi="31" />
 
+
 </manifest>
