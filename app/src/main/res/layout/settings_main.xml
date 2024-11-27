@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".SettingsActivityMain">
+    tools:context=".ui.SettingsHome">
 
     <!-- Top Bar -->
     <LinearLayout
@@ -26,10 +26,10 @@
 
         <ImageView
             android:id="@+id/cross_logo"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/cross_logo"
-            android:layout_gravity="center_vertical" />
+            android:layout_width="19dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/cross_logo" />
     </LinearLayout>
 
     <!-- Settings Sections -->

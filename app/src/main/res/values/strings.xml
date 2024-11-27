@@ -34,4 +34,8 @@
     <string name="uploads_count">0</string>
     <string name="modules_count">0</string>
     <string name="books_count">0</string>
+    <string name="Studdoc">Studdoc</string>
+
+
+    <string name="client_id">301759107383-6ae1uldbo5ksdjmerdaf471bhi99isce.apps.googleusercontent.com</string>
 </resources>
