@@ -38,4 +38,8 @@
 
 
     <string name="client_id">301759107383-6ae1uldbo5ksdjmerdaf471bhi99isce.apps.googleusercontent.com</string>
+    <string name="see_all">See all</string>
+    <string name="document_name">Software Engineering - Lecture Notes</string>
+    <string name="course_name">Software Engineering</string>
+    <string name="rating">100%</string>
 </resources>
