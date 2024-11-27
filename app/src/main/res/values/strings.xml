@@ -34,4 +34,8 @@
     <string name="uploads_count">0</string>
     <string name="modules_count">0</string>
     <string name="books_count">0</string>
+    <string name="see_all">See all</string>
+    <string name="document_name">Software Engineering - Lecture Notes</string>
+    <string name="course_name">Software Engineering</string>
+    <string name="rating">100%</string>
 </resources>
