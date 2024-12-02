@@ -41,7 +41,19 @@
     <string name="see_all">See all</string>
     <string name="document_name">Software Engineering - Lecture Notes</string>
     <string name="course_name">Software Engineering</string>
-    <string name="rating">100%</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="rating">4.5 ★</string>
+    <string name="course_code">SE-101</string>"
+    <string name="module">Module</string>
+    <string name="recommended">Recommended</string>
+    <string name="popular_books">Popular Books</string>
+    <string name="book_name">Human Resource Management</string>
+    <string name="author_name">Gary Dessler</string>
+    <string name="book">Book</string>
+    <string name="popular_courses">Popular Courses</string>
+    <string name="college_text">In National University of Computer and Emerging Sciences</string>"
+    <string name="studylist_name">CPS</string>
+    <string name="studylist_author">by Maryam Asif</string>
+    <string name="recommended_studylists">Recommended Studylists</string>"
 </resources>
