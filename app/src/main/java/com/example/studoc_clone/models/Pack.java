@@ -2,6 +2,7 @@ package com.example.studoc_clone.models;
 
 public class Pack {
 
+    private String id;
     private String name;
     private String subName;
     private Type type;
@@ -11,6 +12,10 @@ public class Pack {
         BOOK,
         COURSE,
         STUDYLIST
+    }
+
+    public Pack(){
+
     }
 
     // Constructor to initialize the fields
@@ -32,6 +37,12 @@ public class Pack {
     // Getter and setter for SubName
     public String getSubName() {
         return subName;
+    }
+
+
+    // Getter and setter for SubName
+    public String getId() {
+        return id;
     }
 
     public void setSubName(String subName) {
@@ -56,6 +67,7 @@ public class Pack {
                 ", type=" + type +
                 '}';
     }
+
 
 
 }

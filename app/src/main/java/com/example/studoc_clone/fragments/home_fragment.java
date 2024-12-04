@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.studoc_clone.R;
 import com.example.studoc_clone.adapters.DocumentAdapter;
+import com.example.studoc_clone.adapters.PackAdapter;
 import com.example.studoc_clone.models.Document;
+import com.example.studoc_clone.models.Pack;
 import com.example.studoc_clone.ui.ProfileHome;
 import com.example.studoc_clone.ui.SettingsHome;
 import com.example.studoc_clone.utils.DocumentViewerActivity;
@@ -36,6 +39,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import android.content.SharedPreferences;
@@ -55,20 +59,39 @@ public class home_fragment extends Fragment {
     private ImageView profileIcon;
 
 
-    private RecyclerView recyclerView;
-    private DocumentAdapter adapter;
+
     private List<Document> documentList = new ArrayList<>();
+
+    private ArrayList<Pack> booksList = new ArrayList<>();
+    private ArrayList<Pack> modulesList = new ArrayList<>();
+    private ArrayList<Pack> studylistList = new ArrayList<>();
+
+
     private DatabaseReference databaseReference;
 
+    private DocumentAdapter adapter;
+
+    private PackAdapter booksAdapter;
+    private PackAdapter modulesAdapter;
+    private PackAdapter studyListAdapter;
+
+
     private static final String RECENT_DOCUMENTS_KEY = "recent_documents";
+    private static final String RECENT_VIEWED_KEY = "recent_views";
     private List<String> recentDocumentIds = new ArrayList<>();
-    private RecyclerView recentRecyclerView;
+    private List<String> recentViewedIds = new ArrayList<>();
 
     private LinearLayout recentViewLayout;
     private LinearLayout recentDocumentLayout;
 
 
     private DocumentAdapter recentAdapter;
+
+    private PackAdapter recentViewedAdapter;
+    private PackAdapter books;
+    private PackAdapter modules;
+    private PackAdapter studyList;
+
 
     View loggedInView;
     View loggedOutView;
@@ -148,12 +171,16 @@ public class home_fragment extends Fragment {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("documents");
 
+
+        // Documents Views
+        RecyclerView recyclerView;
+
         recyclerView = rootView.findViewById(R.id.recommendedRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
         adapter = new DocumentAdapter(getContext(), documentList, document -> {
             // Save to recent documents
-            saveRecentDocumentId(document.getDocId());
+            saveRecents(document.getDocId(),recentDocumentIds,RECENT_DOCUMENTS_KEY,15);
 
             // Handle document click
             Intent intent = new Intent(requireContext(), DocumentViewerActivity.class);
@@ -165,6 +192,10 @@ public class home_fragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+
+        // Recent Documents List
+        RecyclerView recentRecyclerView;
+
         // Initialize recent RecyclerView
         recentRecyclerView = rootView.findViewById(R.id.recent_documents);
         recentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -175,6 +206,57 @@ public class home_fragment extends Fragment {
             startActivity(intent);
         });
         recentRecyclerView.setAdapter(recentAdapter);
+
+
+        // Recent Viewed List
+        RecyclerView recentViewedRecyclerView;
+        recentViewedRecyclerView = rootView.findViewById(R.id.recent_viewed);
+        recentViewedRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recentViewedAdapter = new PackAdapter(getContext(),new ArrayList<>(), pack -> {
+
+        });
+        recentViewedRecyclerView.setAdapter(recentViewedAdapter);
+
+        // Books List
+        RecyclerView booksView;
+
+        booksView = rootView.findViewById(R.id.books_recycle_view);
+        booksView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+
+        booksAdapter = new PackAdapter(getContext(),booksList, pack -> {
+            // Save to recent documents
+            saveRecents(pack.getId(),recentViewedIds,RECENT_VIEWED_KEY,15);
+        });
+
+        booksView.setAdapter(booksAdapter);
+
+        // Modules List
+        RecyclerView modulesView;
+
+        modulesView = rootView.findViewById(R.id.modules_recycle_view);
+        modulesView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+
+        modulesAdapter = new PackAdapter(getContext(),modulesList, pack -> {
+            // Save to recent documents
+            saveRecents(pack.getId(),recentViewedIds,RECENT_VIEWED_KEY,15);
+        });
+
+        modulesView.setAdapter(modulesAdapter);
+
+        // Books List
+        RecyclerView studyListView;
+
+        studyListView = rootView.findViewById(R.id.studylist_recycle_view);
+        studyListView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+
+        studyListAdapter = new PackAdapter(getContext(),studylistList, pack -> {
+            // Save to recent documents
+            saveRecents(pack.getId(),recentViewedIds,RECENT_VIEWED_KEY,15);
+        });
+
+        studyListView.setAdapter(studyListAdapter);
+
+
 
         recentViewLayout = rootView.findViewById(R.id.recent_viewed_layout);
         recentDocumentLayout = rootView.findViewById(R.id.recent_documents_layout);
@@ -205,24 +287,50 @@ public class home_fragment extends Fragment {
         });
     }
 
+    private void fetchPacksByType(String packType, ArrayList<Pack> packs, Runnable onComplete) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("packs");
+
+        // Query packs by type
+        Query query = databaseReference.orderByChild("type").equalTo(packType);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                packs.clear(); // Clear the list to avoid duplicates
+                for (DataSnapshot child : snapshot.getChildren()) {
+                    Pack pack = child.getValue(Pack.class);
+                    if (pack != null) {
+                        packs.add(pack); // Add fetched packs to the provided list
+                    }
+                }
+                if (onComplete != null) {
+                    onComplete.run(); // Notify when the operation is complete
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FetchPacksError", error.getMessage()); // Log the error
+            }
+        });
+    }
+
+
+
 
     @Override
     public void onStart() {
         super.onStart();
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            profileIcon.setVisibility(View.VISIBLE);
-            settingsIcon.setVisibility(View.GONE);
-            updateUserUI(user);
-        } else {
-            profileIcon.setVisibility(View.GONE);
-            settingsIcon.setVisibility(View.VISIBLE);
-        }
+        updateUserUI(user);
+
     }
 
     private void updateUserUI(FirebaseUser user) {
 
         if(user != null){
+            profileIcon.setVisibility(View.VISIBLE);
+            settingsIcon.setVisibility(View.GONE);
             loggedOutView.setVisibility(View.GONE);
             loggedInView.setVisibility(View.VISIBLE);
 
@@ -236,17 +344,29 @@ public class home_fragment extends Fragment {
 
             loadDocuments();
             // Load saved recent documents
-            loadRecentDocumentIds();
+            loadRecents(recentDocumentIds,RECENT_DOCUMENTS_KEY);
+            loadRecents(recentViewedIds,RECENT_VIEWED_KEY);
             loadRecentDocuments();
+            loadRecentViewed();
+
+            fetchPacksByType("BOOK", booksList, () -> booksAdapter.notifyDataSetChanged());
+            fetchPacksByType("COURSE", modulesList, () -> modulesAdapter.notifyDataSetChanged());
+            fetchPacksByType("STUDYLIST", studylistList, () -> studyListAdapter.notifyDataSetChanged());
+
+
 
         }
         else{
             loggedOutView.setVisibility(View.VISIBLE);
             loggedInView.setVisibility(View.GONE);
+            profileIcon.setVisibility(View.GONE);
+            settingsIcon.setVisibility(View.VISIBLE);
         }
 
 
     }
+
+
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -289,38 +409,46 @@ public class home_fragment extends Fragment {
     }
 
 
-    private void saveRecentDocumentId(String documentId) {
+    private void saveRecents(String id,List<String> recentIds, String KEY,int limit ) {
         // Update the list of recent document IDs
-        if (recentDocumentIds.contains(documentId)) {
-            recentDocumentIds.remove(documentId);
+        if (recentIds.contains(id)) {
+            recentIds.remove(id);
         }
-        recentDocumentIds.add(0, documentId); // Add to the top
-        if (recentDocumentIds.size() > 15) {
-            recentDocumentIds.remove(recentDocumentIds.size() - 1); // Keep only the last 15
+        recentIds.add(0, id); // Add to the top
+        if (recentIds.size() > limit) {
+            recentIds.remove(recentIds.size() - 1); // Keep only the last 15
         }
 
         // Save to SharedPreferences
         SharedPreferences preferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         Gson gson = new Gson();
-        editor.putString(RECENT_DOCUMENTS_KEY, gson.toJson(recentDocumentIds));
+        editor.putString(KEY, gson.toJson(recentIds));
         editor.apply();
     }
 
-    private void loadRecentDocumentIds() {
+
+
+    private void loadRecents(List<String> recentList, String KEY) {
         SharedPreferences preferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        String json = preferences.getString(RECENT_DOCUMENTS_KEY, null);
+        String json = preferences.getString(KEY, null);
         if (json != null) {
             Gson gson = new Gson();
-            recentDocumentIds = gson.fromJson(json, new TypeToken<List<String>>() {}.getType());
-        }
+            List<String> newList = gson.fromJson(json, new TypeToken<List<String>>() {}.getType());
 
+            // Clear the original list and add all items from the new list
+            recentList.clear();
+            if (newList != null) {
+                recentList.addAll(newList);
+            }
+        }
     }
 
-    private void loadRecentDocuments() {
+
+
+    private void loadRecentDocuments( ) {
         // Check if there are no recent documents
         if (recentDocumentIds.isEmpty()) {
-            recentViewLayout.setVisibility(View.GONE);  // Hide the logged-in content view
             recentDocumentLayout.setVisibility(View.GONE);  // Hide the logged-out content view
             return;
         }
@@ -340,12 +468,9 @@ public class home_fragment extends Fragment {
                 }
 
                 // If no documents were found, hide both views
-                if (recentDocuments.isEmpty()) {
-                    loggedInView.setVisibility(View.GONE);
-                    loggedOutView.setVisibility(View.GONE);
-                } else {
-                    // Update the recent documents adapter with the loaded documents
+                if (!recentDocuments.isEmpty()) {
                     recentAdapter.updateData(recentDocuments);
+
                 }
             }
 
@@ -355,6 +480,44 @@ public class home_fragment extends Fragment {
             }
         });
     }
+
+
+    private void loadRecentViewed( ) {
+        // Check if there are no recent documents
+        if (recentViewedIds.isEmpty()) {
+            recentViewLayout.setVisibility(View.GONE);  // Hide the logged-out content view
+            return;
+        }
+
+
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Pack> recentPacks = new ArrayList<>();
+                for (String id : recentViewedIds) {
+                    DataSnapshot child = snapshot.child(id);
+                    Pack pack = child.getValue(Pack.class);
+                    if (pack != null) {
+                        recentPacks.add(pack);
+                    }
+                }
+
+                // If no documents were found, hide both views
+                if (!recentPacks.isEmpty()) {
+                    recentViewedAdapter.updateData(recentPacks);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Failed to load recent documents.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 
 
 

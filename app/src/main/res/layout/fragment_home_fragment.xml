@@ -28,12 +28,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingBottom="45dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
+            android:paddingBottom="95dp"
+
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -92,12 +93,12 @@
 
                 <!-- Main Content -->
                 <LinearLayout
+                    android:id="@+id/logged_out_main_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    android:id="@+id/logged_out_main_content"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:visibility="gone">
 
                     <!-- Create Account Box -->
                     <LinearLayout
@@ -174,6 +175,7 @@
 
                         <!-- My Favourites Box -->
                         <LinearLayout
+                            android:id="@+id/myFavourites"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="0dp"
@@ -181,7 +183,6 @@
                             android:background="@drawable/rounded_favourites_background"
                             android:clickable="true"
                             android:focusable="true"
-                            android:id="@+id/myFavourites"
                             android:orientation="vertical"
                             android:padding="16dp">
 
@@ -427,25 +428,25 @@
 
                 <!-- Logged in Main Content -->
                 <LinearLayout
-                    android:visibility="visible"
-                    android:paddingHorizontal="10dp"
+                    android:id="@+id/logged_in_main_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:id="@+id/logged_in_main_content">
+                    android:paddingHorizontal="10dp"
+                    android:visibility="visible">
                     <!-- Recent Documents Section -->
                     <LinearLayout
+                        android:id="@+id/recent_documents_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/recent_documents_layout"
-                        android:layout_marginTop="30dp">
+                        android:layout_marginTop="30dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -459,38 +460,38 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/see_all"
-                                android:textColor="@color/gray"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
+                                android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:background="@drawable/rounded_see_all_button"
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
-                                android:paddingVertical="8dp" />
+                                android:paddingVertical="8dp"
+                                android:text="@string/see_all"
+                                android:textColor="@color/gray"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recent_documents"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/recent_documents"/>
+                            android:layout_height="wrap_content" />
 
                     </LinearLayout>
 
                     <!-- Recently Viewed Section -->
                     <LinearLayout
+                        android:id="@+id/recent_viewed_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/recent_viewed_layout"
-                        android:layout_marginTop="15dp">
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -498,42 +499,42 @@
                                 android:layout_weight="1"
                                 android:text="@string/recently_viewed"
                                 android:textColor="@android:color/black"
-                                android:textStyle="bold"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/see_all"
-                                android:textColor="@color/gray"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
+                                android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:background="@drawable/rounded_see_all_button"
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
-                                android:paddingVertical="8dp" />
+                                android:paddingVertical="8dp"
+                                android:text="@string/see_all"
+                                android:textColor="@color/gray"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recent_viewed"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/recent_viewed"/>
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <!-- Recommended Section -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="25dp">
+                        android:layout_marginTop="25dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -541,52 +542,44 @@
                                 android:layout_weight="1"
                                 android:text="@string/recommended"
                                 android:textColor="@color/black"
-                                android:textStyle="bold"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/see_all"
-                                android:textColor="@color/gray"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
+                                android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:background="@drawable/rounded_see_all_button"
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
-                                android:paddingVertical="8dp" />
+                                android:paddingVertical="8dp"
+                                android:text="@string/see_all"
+                                android:textColor="@color/gray"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
-<!--                        <HorizontalScrollView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="0dp">-->
-
-
-<!--                        </HorizontalScrollView>-->
-
                         <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recommendedRecycleView"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:id="@+id/recommendedRecycleView"/>
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <!-- Popular Books Section -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="25dp">
+                        android:layout_marginTop="25dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -594,15 +587,15 @@
                                 android:layout_weight="1"
                                 android:text="@string/popular_books"
                                 android:textColor="@color/black"
-                                android:textStyle="bold"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -615,84 +608,37 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/see_all"
-                                android:textColor="@color/gray"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
+                                android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:background="@drawable/rounded_see_all_button"
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
-                                android:paddingVertical="8dp" />
+                                android:paddingVertical="8dp"
+                                android:text="@string/see_all"
+                                android:textColor="@color/gray"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
-                        <HorizontalScrollView
-                            android:layout_width="match_parent"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/books_recycle_view"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="0dp"
-                                    android:layout_marginTop="0dp"
-                                    android:background="@drawable/rounded_favourites_background"
-                                    android:orientation="vertical"
-                                    android:padding="14dp"
-                                    android:clickable="true"
-                                    android:focusable="true">
-
-                                    <TextView
-                                        android:layout_width="120dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/book_name"
-                                        android:textColor="@color/dark_orange"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:text="@string/author_name"
-                                        android:textColor="@color/orange"
-                                        android:textSize="14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:background="@drawable/rounded_studylist_tag"
-                                        android:paddingHorizontal="8dp"
-                                        android:paddingVertical="3dp"
-                                        android:text="@string/book"
-                                        android:textColor="@color/white"
-                                        android:textSize="13sp"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </HorizontalScrollView>
+                            android:layout_marginTop="8dp" />
                     </LinearLayout>
 
                     <!-- Popular Courses Section -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="25dp">
+                        android:layout_marginTop="25dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -700,15 +646,15 @@
                                 android:layout_weight="1"
                                 android:text="@string/popular_courses"
                                 android:textColor="@color/black"
-                                android:textStyle="bold"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -721,84 +667,37 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/see_all"
-                                android:textColor="@color/gray"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
+                                android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:background="@drawable/rounded_see_all_button"
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
-                                android:paddingVertical="8dp" />
+                                android:paddingVertical="8dp"
+                                android:text="@string/see_all"
+                                android:textColor="@color/gray"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
-                        <HorizontalScrollView
-                            android:layout_width="match_parent"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/modules_recycle_view"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="0dp"
-                                    android:layout_marginTop="0dp"
-                                    android:background="@drawable/rounded_favourites_background"
-                                    android:orientation="vertical"
-                                    android:padding="14dp"
-                                    android:clickable="true"
-                                    android:focusable="true">
-
-                                    <TextView
-                                        android:layout_width="120dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/course_name"
-                                        android:textColor="@color/dark_orange"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:text="@string/course_code"
-                                        android:textColor="@color/orange"
-                                        android:textSize="14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:background="@drawable/rounded_studylist_tag"
-                                        android:paddingHorizontal="8dp"
-                                        android:paddingVertical="3dp"
-                                        android:text="@string/module"
-                                        android:textColor="@color/white"
-                                        android:textSize="13sp"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </HorizontalScrollView>
+                            android:layout_marginTop="8dp" />
                     </LinearLayout>
 
                     <!-- Recommended Studylists Section -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="25dp">
+                        android:layout_marginTop="25dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -806,15 +705,15 @@
                                 android:layout_weight="1"
                                 android:text="@string/recommended_studylists"
                                 android:textColor="@color/black"
-                                android:textStyle="bold"
-                                android:textSize="20sp" />
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -827,74 +726,26 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/see_all"
-                                android:textColor="@color/gray"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
+                                android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:background="@drawable/rounded_see_all_button"
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
-                                android:paddingVertical="8dp" />
+                                android:paddingVertical="8dp"
+                                android:text="@string/see_all"
+                                android:textColor="@color/gray"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
-                        <HorizontalScrollView
-                            android:layout_width="match_parent"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/studylist_recycle_view"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="0dp"
-                                    android:layout_marginTop="0dp"
-                                    android:background="@drawable/rounded_favourites_background"
-                                    android:orientation="vertical"
-                                    android:padding="14dp"
-                                    android:clickable="true"
-                                    android:focusable="true">
-
-                                    <TextView
-                                        android:layout_width="120dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/studylist_name"
-                                        android:textColor="@color/dark_orange"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:text="@string/studylist_author"
-                                        android:textColor="@color/orange"
-                                        android:textSize="14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:background="@drawable/rounded_studylist_tag"
-                                        android:paddingHorizontal="8dp"
-                                        android:paddingVertical="3dp"
-                                        android:text="@string/study_list"
-                                        android:textColor="@color/white"
-                                        android:textSize="13sp"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-                        </HorizontalScrollView>
+                            android:layout_marginTop="8dp" />
                     </LinearLayout>
 
                 </LinearLayout>
-
 
 
             </LinearLayout>

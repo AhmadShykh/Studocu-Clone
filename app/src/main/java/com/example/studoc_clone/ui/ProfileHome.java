@@ -64,5 +64,12 @@ public class ProfileHome extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.arrow_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
 }
