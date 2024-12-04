@@ -11,13 +11,22 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven("https://jitpack.io")
+        maven("https://repository.liferay.com/nexus/content/repositories/public/")
     }
 }
+
+
+
 
 rootProject.name = "Studoc_Clone"
 include(":app")

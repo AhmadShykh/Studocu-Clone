@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginEnd="8dp"
+    android:clickable="true"
+    android:focusable="true">
+
+
+        <ImageView
+            android:id="@+id/document_id"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:scaleType="centerCrop"
+
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:background="@drawable/border" />
+
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:id="@+id/document_name"
+            android:layout_marginStart="7dp"
+            android:text="@string/document_name"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="120dp"
+            android:id="@+id/document_field"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="7dp"
+            android:text="@string/course_name"
+            android:textColor="@color/gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/document_rating"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="7dp"
+            android:text="@string/rating"
+            android:textColor="@color/dark_blue"
+            android:textStyle="bold"
+            android:textSize="12sp" />
+
+</LinearLayout>

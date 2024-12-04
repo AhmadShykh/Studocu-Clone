@@ -1,5 +1,5 @@
 [versions]
-agp = "8.6.0"
+agp = "8.7.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -12,6 +12,10 @@ constraintlayout = "2.2.0"
 firebaseAuth = "23.1.0"
 glide = "5.0.0-rc01"
 playServicesAuth = "21.2.0"
+androidPdfViewer = "2.8.2"
+androidPdfViewerVersion = "3.2.0-beta.1"
+githubAndroidPdfViewer = "1.6.0"
+gson = "2.11.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -25,6 +29,10 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
+android-pdf-viewer = { group = "com.github.barteksc", name = "android-pdf-viewer", version.ref = "androidPdfViewer" }
+barteksc-android-pdf-viewer = { group = "com.github.barteksc", name = "android-pdf-viewer", version.ref = "androidPdfViewerVersion" }
+github-android-pdf-viewer = { group = "com.github.barteksc", name = "android-pdf-viewer", version.ref = "githubAndroidPdfViewer" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

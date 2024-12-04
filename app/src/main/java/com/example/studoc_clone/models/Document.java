@@ -5,17 +5,28 @@ public class Document {
     private String userId;
     private String title;
     private String description;
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    private String rating;
     private String fileUrl;
 
     // Default constructor
     public Document() {}
 
-    public Document(String docId, String userId, String title, String description, String fileUrl) {
+    public Document(String docId, String userId, String title, String description, String fileUrl,String rating) {
         this.docId = docId;
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.fileUrl = fileUrl;
+        this.rating = rating;
     }
 
     // Getters and setters
@@ -33,4 +44,7 @@ public class Document {
 
     public String getFileUrl() { return fileUrl; }
     public void setFileUrl(String fileUrl) { this.fileUrl = fileUrl; }
+
+
+
 }
