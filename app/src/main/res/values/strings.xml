@@ -56,4 +56,10 @@
     <string name="studylist_name">CPS</string>
     <string name="studylist_author">by Maryam Asif</string>
     <string name="recommended_studylists">Recommended Studylists</string>"
+    <string name="search_hint">Search for any study material...</string>
+    <string name="university_school">University / School</string>"
+    <string name="documents">Documents</string>"
+    <string name="lecture_notes">Lecture Notes</string>
+    <string name="year">2022/2023</string>
+    <string name="school_name">Stanford University</string>
 </resources>
