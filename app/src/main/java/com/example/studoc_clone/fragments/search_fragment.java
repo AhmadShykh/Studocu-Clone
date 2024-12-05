@@ -1,66 +1,194 @@
 package com.example.studoc_clone.fragments;
 
+import static com.example.studoc_clone.utils.GlobalUtils.saveRecents;
+
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.studoc_clone.R;
+import com.example.studoc_clone.adapters.DocumentAdapter;
+import com.example.studoc_clone.adapters.PackAdapter;
+import com.example.studoc_clone.adapters.SearchDocumentAdapter;
+import com.example.studoc_clone.models.Document;
+import com.example.studoc_clone.models.Pack;
+import com.example.studoc_clone.utils.Consts;
+import com.example.studoc_clone.utils.DocumentViewerActivity;
+import com.example.studoc_clone.utils.FirebaseUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link search_fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class search_fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private PackAdapter packsAdapter;
+    SearchDocumentAdapter adapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    List<Document> documentList = new ArrayList<>();
+    ArrayList<Pack> packs = new ArrayList<>();
 
-    public search_fragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment search_fragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static search_fragment newInstance(String param1, String param2) {
-        search_fragment fragment = new search_fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    RecyclerView packsView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_search_fragment, container, false);
+
+
+        RecyclerView recyclerView;
+
+        recyclerView = rootView.findViewById(R.id.search_documents);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        adapter = new SearchDocumentAdapter(getContext(), documentList, document -> {
+            // Save to recent documents
+            saveRecents(document.getDocId(),Consts.recentDocumentIds, Consts.RECENT_DOCUMENTS_KEY,15,requireContext());
+
+            // Handle document click
+            Intent intent = new Intent(requireContext(), DocumentViewerActivity.class);
+            intent.putExtra("PDF_URL", document.getFileUrl());
+            startActivity(intent);
+        });
+
+        recyclerView.setAdapter(adapter);
+
+        RecyclerView booksView;
+
+        booksView = rootView.findViewById(R.id.courses_layout);
+        booksView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+
+        packsAdapter = new PackAdapter(getContext(),packs, pack -> {
+            // Save to recent documents
+            saveRecents(pack.getId(),Consts.recentViewedIds,Consts.RECENT_VIEWED_KEY,15,requireContext());
+        });
+
+        booksView.setAdapter(packsAdapter);
+
+        loadDocuments();
+        loadPacks();
+
+
+        EditText searchEditText = rootView.findViewById(R.id.searchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String query = s.toString().trim();
+                if (!query.isEmpty()) {
+                    searchDocuments(query);
+                    booksView.setVisibility(View.GONE);
+                } else {
+                    booksView.setVisibility(View.VISIBLE);
+                    loadDocuments(); // Reload all documents if search is cleared
+                }
+            }
+        });
+
+        return rootView;
     }
+
+    private void searchDocuments(String query) {
+        DatabaseReference databaseReference = FirebaseUtils.getDocumentsRef();
+
+        // Fetch all documents and filter on the client side
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                documentList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Document document = dataSnapshot.getValue(Document.class);
+                    if (document != null && matchesSearchCriteria(document, query)) {
+                        documentList.add(document);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Failed to perform search.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Helper function to match search criteria
+    private boolean matchesSearchCriteria(Document document, String query) {
+        query = query.toLowerCase();
+        return (document.getTitle() != null && document.getTitle().toLowerCase().contains(query)) ||
+                (document.getDescription() != null && document.getDescription().toLowerCase().contains(query)) ||
+                (document.getFolder() != null && document.getFolder().toLowerCase().contains(query)) ||
+                (document.getDocType() != null && document.getDocType().toLowerCase().contains(query));
+    }
+
+    private void loadDocuments() {
+        DatabaseReference databaseReference = FirebaseUtils.getDocumentsRef();
+
+        // Limit the query to the first 15 documents
+        databaseReference.limitToFirst(15).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                documentList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Document document = dataSnapshot.getValue(Document.class);
+                    if (document != null) {
+                        documentList.add(document);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Failed to load documents.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadPacks() {
+        DatabaseReference databaseReference = FirebaseUtils.getPacksRef();
+
+        // Limit the query to the first 15 documents
+        databaseReference.limitToFirst(10).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                packs.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Pack pack = dataSnapshot.getValue(Pack.class);
+                    if (pack != null) {
+                        packs.add(pack);
+                    }
+                }
+                packsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Failed to load documents.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

@@ -22,6 +22,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:id="@+id/document_name"
                     android:layout_height="wrap_content"
                     android:text="@string/document_name"
                     android:textSize="13sp"
@@ -31,6 +32,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/document_type"
                     android:layout_marginTop="2dp"
                     android:background="@drawable/rounded_category_background"
                     android:paddingHorizontal="8dp"
@@ -56,6 +58,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/folder_name"
                     android:text="@string/course_name"
                     android:textSize="11sp"
                     android:textColor="@color/dark_gray" />
@@ -76,6 +79,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/university_name"
                     android:text="@string/school_name"
                     android:textSize="11sp"
                     android:textColor="@color/gray" />
@@ -95,12 +99,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:id="@+id/years"
                     android:text="@string/year"
                     android:textColor="@color/gray"
                     android:textSize="11sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:id="@+id/rating"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="@string/rating"
@@ -113,6 +119,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginStart="10dp"
+            android:id="@+id/document_image"
             android:scaleType="centerCrop"
             android:src="@drawable/rounded_gray_background" />
 

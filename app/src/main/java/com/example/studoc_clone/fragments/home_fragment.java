@@ -1,5 +1,7 @@
 package com.example.studoc_clone.fragments;
 
+import static com.example.studoc_clone.utils.GlobalUtils.saveRecents;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,7 +28,9 @@ import com.example.studoc_clone.models.Document;
 import com.example.studoc_clone.models.Pack;
 import com.example.studoc_clone.ui.ProfileHome;
 import com.example.studoc_clone.ui.SettingsHome;
+import com.example.studoc_clone.utils.Consts;
 import com.example.studoc_clone.utils.DocumentViewerActivity;
+import com.example.studoc_clone.utils.FirebaseUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -38,7 +42,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -67,7 +70,6 @@ public class home_fragment extends Fragment {
     private ArrayList<Pack> studylistList = new ArrayList<>();
 
 
-    private DatabaseReference databaseReference;
 
     private DocumentAdapter adapter;
 
@@ -76,10 +78,7 @@ public class home_fragment extends Fragment {
     private PackAdapter studyListAdapter;
 
 
-    private static final String RECENT_DOCUMENTS_KEY = "recent_documents";
-    private static final String RECENT_VIEWED_KEY = "recent_views";
-    private List<String> recentDocumentIds = new ArrayList<>();
-    private List<String> recentViewedIds = new ArrayList<>();
+
 
     private LinearLayout recentViewLayout;
     private LinearLayout recentDocumentLayout;
@@ -88,9 +87,7 @@ public class home_fragment extends Fragment {
     private DocumentAdapter recentAdapter;
 
     private PackAdapter recentViewedAdapter;
-    private PackAdapter books;
-    private PackAdapter modules;
-    private PackAdapter studyList;
+
 
 
     View loggedInView;
@@ -169,7 +166,6 @@ public class home_fragment extends Fragment {
         loggedInView = rootView.findViewById(R.id.logged_in_main_content);
         loggedOutView = rootView.findViewById(R.id.logged_out_main_content);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("documents");
 
 
         // Documents Views
@@ -180,7 +176,7 @@ public class home_fragment extends Fragment {
 
         adapter = new DocumentAdapter(getContext(), documentList, document -> {
             // Save to recent documents
-            saveRecents(document.getDocId(),recentDocumentIds,RECENT_DOCUMENTS_KEY,15);
+            saveRecents(document.getDocId(),Consts.recentDocumentIds, Consts.RECENT_DOCUMENTS_KEY,15,requireContext());
 
             // Handle document click
             Intent intent = new Intent(requireContext(), DocumentViewerActivity.class);
@@ -225,7 +221,7 @@ public class home_fragment extends Fragment {
 
         booksAdapter = new PackAdapter(getContext(),booksList, pack -> {
             // Save to recent documents
-            saveRecents(pack.getId(),recentViewedIds,RECENT_VIEWED_KEY,15);
+            saveRecents(pack.getId(),Consts.recentViewedIds,Consts.RECENT_VIEWED_KEY,15,requireContext());
         });
 
         booksView.setAdapter(booksAdapter);
@@ -238,7 +234,7 @@ public class home_fragment extends Fragment {
 
         modulesAdapter = new PackAdapter(getContext(),modulesList, pack -> {
             // Save to recent documents
-            saveRecents(pack.getId(),recentViewedIds,RECENT_VIEWED_KEY,15);
+            saveRecents(pack.getId(),Consts.recentViewedIds,Consts.RECENT_VIEWED_KEY,15,requireContext());
         });
 
         modulesView.setAdapter(modulesAdapter);
@@ -251,7 +247,7 @@ public class home_fragment extends Fragment {
 
         studyListAdapter = new PackAdapter(getContext(),studylistList, pack -> {
             // Save to recent documents
-            saveRecents(pack.getId(),recentViewedIds,RECENT_VIEWED_KEY,15);
+            saveRecents(pack.getId(),Consts.recentViewedIds,Consts.RECENT_VIEWED_KEY,15,requireContext());
         });
 
         studyListView.setAdapter(studyListAdapter);
@@ -267,6 +263,7 @@ public class home_fragment extends Fragment {
     }
 
     private void loadDocuments() {
+        DatabaseReference databaseReference = FirebaseUtils.getDocumentsRef();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -288,10 +285,10 @@ public class home_fragment extends Fragment {
     }
 
     private void fetchPacksByType(String packType, ArrayList<Pack> packs, Runnable onComplete) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("packs");
+        DatabaseReference databaseReferenceForPacks = FirebaseUtils.getPacksRef();
 
         // Query packs by type
-        Query query = databaseReference.orderByChild("type").equalTo(packType);
+        Query query = databaseReferenceForPacks.orderByChild("type").equalTo(packType);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -344,8 +341,8 @@ public class home_fragment extends Fragment {
 
             loadDocuments();
             // Load saved recent documents
-            loadRecents(recentDocumentIds,RECENT_DOCUMENTS_KEY);
-            loadRecents(recentViewedIds,RECENT_VIEWED_KEY);
+            loadRecents(Consts.recentDocumentIds,Consts.RECENT_DOCUMENTS_KEY);
+            loadRecents(Consts.recentViewedIds,Consts.RECENT_VIEWED_KEY);
             loadRecentDocuments();
             loadRecentViewed();
 
@@ -409,23 +406,7 @@ public class home_fragment extends Fragment {
     }
 
 
-    private void saveRecents(String id,List<String> recentIds, String KEY,int limit ) {
-        // Update the list of recent document IDs
-        if (recentIds.contains(id)) {
-            recentIds.remove(id);
-        }
-        recentIds.add(0, id); // Add to the top
-        if (recentIds.size() > limit) {
-            recentIds.remove(recentIds.size() - 1); // Keep only the last 15
-        }
 
-        // Save to SharedPreferences
-        SharedPreferences preferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        Gson gson = new Gson();
-        editor.putString(KEY, gson.toJson(recentIds));
-        editor.apply();
-    }
 
 
 
@@ -447,8 +428,10 @@ public class home_fragment extends Fragment {
 
 
     private void loadRecentDocuments( ) {
+        DatabaseReference databaseReference = FirebaseUtils.getDocumentsRef();
+
         // Check if there are no recent documents
-        if (recentDocumentIds.isEmpty()) {
+        if (Consts.recentDocumentIds.isEmpty()) {
             recentDocumentLayout.setVisibility(View.GONE);  // Hide the logged-out content view
             return;
         }
@@ -459,7 +442,7 @@ public class home_fragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Document> recentDocuments = new ArrayList<>();
-                for (String id : recentDocumentIds) {
+                for (String id : Consts.recentDocumentIds) {
                     DataSnapshot child = snapshot.child(id);
                     Document document = child.getValue(Document.class);
                     if (document != null) {
@@ -483,8 +466,10 @@ public class home_fragment extends Fragment {
 
 
     private void loadRecentViewed( ) {
+
+        DatabaseReference databaseReference = FirebaseUtils.getPacksRef();
         // Check if there are no recent documents
-        if (recentViewedIds.isEmpty()) {
+        if (Consts.recentViewedIds.isEmpty()) {
             recentViewLayout.setVisibility(View.GONE);  // Hide the logged-out content view
             return;
         }
@@ -495,7 +480,7 @@ public class home_fragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Pack> recentPacks = new ArrayList<>();
-                for (String id : recentViewedIds) {
+                for (String id : Consts.recentViewedIds) {
                     DataSnapshot child = snapshot.child(id);
                     Pack pack = child.getValue(Pack.class);
                     if (pack != null) {
