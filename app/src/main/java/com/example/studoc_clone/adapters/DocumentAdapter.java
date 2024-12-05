@@ -3,6 +3,7 @@ package com.example.studoc_clone.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.pdf.PdfDocument;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.github.barteksc.pdfviewer.PDFView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,7 +70,7 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
     private void loadPdfFirstPage(String pdfUrl, ImageView imageView) {
         new Thread(() -> {
             try {
-                // Download PDF from the URL
+                // Download the PDF from the URL
                 URL url = new URL(pdfUrl);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
@@ -88,28 +91,23 @@ public class DocumentAdapter extends RecyclerView.Adapter<DocumentAdapter.Docume
                 outputStream.close();
                 inputStream.close();
 
-                // Now open the downloaded PDF file
+                // Now open the downloaded PDF file using PdfRenderer
                 ParcelFileDescriptor fileDescriptor = ParcelFileDescriptor.open(tempFile, ParcelFileDescriptor.MODE_READ_ONLY);
-                if (fileDescriptor != null) {
-                    PdfRenderer pdfRenderer = new PdfRenderer(fileDescriptor);
+                PdfRenderer pdfRenderer = new PdfRenderer(fileDescriptor);
 
-                    // Open the first page
-                    PdfRenderer.Page page = pdfRenderer.openPage(0);
+                // Render the first page
+                PdfRenderer.Page page = pdfRenderer.openPage(0);
+                Bitmap bitmap = Bitmap.createBitmap(page.getWidth(), page.getHeight(), Bitmap.Config.ARGB_8888);
+                page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+                page.close();
 
-                    // Create a Bitmap for the page
-                    Bitmap bitmap = Bitmap.createBitmap(page.getWidth(), page.getHeight(), Bitmap.Config.ARGB_8888);
-                    page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+                // Set the first page as an image
+                ((Activity) context).runOnUiThread(() -> imageView.setImageBitmap(bitmap));
 
-                    // Close the page and renderer
-                    page.close();
-                    pdfRenderer.close();
-
-                    // Set the Bitmap to the ImageView
-                    ((Activity) context).runOnUiThread(() -> imageView.setImageBitmap(bitmap));
-
-                    // Delete the temporary file after rendering
-                    tempFile.delete();
-                }
+                // Clean up
+                pdfRenderer.close();
+                fileDescriptor.close();
+                tempFile.delete(); // Delete the temporary file after use
             } catch (Exception e) {
                 e.printStackTrace();
             }
