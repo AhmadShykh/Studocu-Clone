@@ -64,4 +64,11 @@
     <string name="message_preview">Most recent message preview</string>
     <string name="time">12:00</string>
     <string name="create_your_group">Create your group</string>
+    <string name="group_info">Group Info</string>
+    <string name="create">Create</string>
+    <string name="name">Name</string>
+    <string name="name_text">Enter an enticing topic for your group</string>
+    <string name="name_note">Use a name that is easy to find and understand</string>
+    <string name="description">Description (optional)</string>"
+    <string name="description_text">Let others know what this chat is about</string>
 </resources>
