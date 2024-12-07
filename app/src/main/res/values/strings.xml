@@ -56,4 +56,12 @@
     <string name="lecture_notes">Lecture Notes</string>
     <string name="year">2022/2023</string>
     <string name="school_name">Stanford University</string>
+    <string name="no_messages">No unread messages</string>
+    <string name="messages">Messages</string>
+    <string name="explore">Explore</string>
+    <string name="my_groups">My Groups</string>
+    <string name="masscom">Mass Communication</string>
+    <string name="message_preview">Most recent message preview</string>
+    <string name="time">12:00</string>
+    <string name="create_your_group">Create your group</string>
 </resources>
