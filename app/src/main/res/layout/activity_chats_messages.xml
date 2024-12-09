@@ -63,7 +63,9 @@
                         android:layout_width="34dp"
                         android:layout_height="34dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/add_logo" />
+                        android:src="@drawable/add_logo"
+                        android:clickable="true"
+                        android:focusable="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -174,7 +176,9 @@
                     android:layout_marginTop="25dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingVertical="8dp">
+                    android:paddingVertical="8dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="52dp"
@@ -232,8 +236,8 @@
                     android:paddingVertical="8dp">
 
                     <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginEnd="5dp"
                         android:src="@drawable/add_icon" />
 
@@ -243,7 +247,7 @@
                         android:text="@string/create_your_group"
                         android:textAllCaps="false"
                         android:textColor="@color/blue"
-                        android:textSize="16sp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
