@@ -34,7 +34,7 @@
                 android:layout_height="20dp" />
 
             <TextView
-                android:id="@+id/recent_documents_heading"
+                android:id="@+id/recently_viewed_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/recently_viewed"
