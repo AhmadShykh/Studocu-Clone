@@ -30,7 +30,9 @@
             android:background="@drawable/rounded_search_bar_background"
             android:paddingHorizontal="12dp"
             android:paddingVertical="17dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
 
             <EditText
                 android:id="@+id/searchEditText"
