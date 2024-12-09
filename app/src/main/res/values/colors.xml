@@ -24,4 +24,6 @@
     <color name="lighter_gray">#EDECEC</color>
     <color name="darker_gray">#2A2A2A</color>
     <color name="darkest_gray">#1A1A1A</color>
+    <color name="green">#8BC34A</color>
+
 </resources>
