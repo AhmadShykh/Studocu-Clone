@@ -71,4 +71,10 @@
     <string name="name_note">Use a name that is easy to find and understand</string>
     <string name="description">Description (optional)</string>"
     <string name="description_text">Let others know what this chat is about</string>
+    <string name="all_chats">All Chats</string>
+    <string name="country_name">Pakistan</string>
+    <string name="total_chats">445</string>
+    <string name="find_your_group_hint">Find your group</string>
+    <string name="num_of_people">35</string>
+    <string name="university_name">University of Punjab</string>
 </resources>
