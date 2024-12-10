@@ -466,8 +466,9 @@
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
                                 android:paddingVertical="8dp"
+                                android:id="@+id/recent_documents_button"
                                 android:text="@string/see_all"
-                                
+
                                 android:textColor="@color/gray"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
@@ -505,6 +506,7 @@
 
                             <TextView
                                 android:layout_width="wrap_content"
+                                android:id="@+id/recent_viewed_button"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
@@ -552,6 +554,7 @@
                                 android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
                                 android:focusable="true"
+                                android:id="@+id/recommended_button"
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
                                 android:paddingVertical="8dp"
@@ -617,6 +620,7 @@
                                 android:paddingVertical="8dp"
                                 android:text="@string/see_all"
                                 android:textColor="@color/gray"
+                                android:id="@+id/popular_books_button"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -671,6 +675,7 @@
                                 android:background="@drawable/rounded_see_all_button"
                                 android:clickable="true"
                                 android:focusable="true"
+                                android:id="@+id/popular_studylist_button"
                                 android:gravity="center"
                                 android:paddingHorizontal="16dp"
                                 android:paddingVertical="8dp"
@@ -735,6 +740,7 @@
                                 android:paddingVertical="8dp"
                                 android:text="@string/see_all"
                                 android:textColor="@color/gray"
+                                android:id="@+id/popular_modules_button"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>

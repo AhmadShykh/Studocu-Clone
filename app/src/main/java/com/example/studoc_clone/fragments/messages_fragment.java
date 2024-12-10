@@ -44,6 +44,9 @@ public class messages_fragment extends Fragment {
 
         fetchUserGroups();
 
+
+
+
         RecyclerView recyclerView = rootView.findViewById(R.id.messages_fragment);
 
         adapter = new GroupAdapter(getContext(), groupList, group -> {

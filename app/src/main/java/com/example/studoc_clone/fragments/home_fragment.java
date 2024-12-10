@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ import com.example.studoc_clone.models.Document;
 import com.example.studoc_clone.models.Pack;
 import com.example.studoc_clone.models.User;
 import com.example.studoc_clone.ui.ProfileHome;
+import com.example.studoc_clone.ui.SeeAllActivity;
 import com.example.studoc_clone.ui.SettingsHome;
 import com.example.studoc_clone.utils.Consts;
 import com.example.studoc_clone.utils.DocumentViewerActivity;
@@ -259,6 +261,22 @@ public class home_fragment extends Fragment {
         recentDocumentLayout = rootView.findViewById(R.id.recent_documents_layout);
 
 
+        TextView recentDocumentsButton = rootView.findViewById(R.id.recent_documents_button);
+        TextView recentViewedButton = rootView.findViewById(R.id.recent_viewed_button);
+        TextView recommendedButton = rootView.findViewById(R.id.recommended_button);
+        TextView popularBooksButton = rootView.findViewById(R.id.popular_books_button);
+        TextView popularStudylistButton = rootView.findViewById(R.id.popular_studylist_button);
+        TextView popularModulesButton = rootView.findViewById(R.id.popular_modules_button);
+
+// Set click listeners
+        recentDocumentsButton.setOnClickListener(view -> openSeeAllActivity("Recent Documents"));
+        recentViewedButton.setOnClickListener(view -> openSeeAllActivity("Recent Viewed"));
+        recommendedButton.setOnClickListener(view -> openSeeAllActivity("Recommended"));
+        popularBooksButton.setOnClickListener(view -> openSeeAllActivity("Popular Books"));
+        popularStudylistButton.setOnClickListener(view -> openSeeAllActivity("Popular Modules"));
+        popularModulesButton.setOnClickListener(view -> openSeeAllActivity("Popular Studylist"));
+
+
 
         return rootView;
     }
@@ -363,6 +381,16 @@ public class home_fragment extends Fragment {
 
 
     }
+
+
+
+
+    private void openSeeAllActivity(String name) {
+        Intent intent = new Intent(getContext(), SeeAllActivity.class);
+        intent.putExtra("LISTNAME", name); // Pass the name as an extra
+        startActivity(intent);
+    }
+
 
 
 

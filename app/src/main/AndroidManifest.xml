@@ -31,6 +31,14 @@
             android:theme="@style/Theme.AppCompat.Light"
             android:label="@string/Studdoc"
             />
+
+
+        <activity
+            android:name="com.example.studoc_clone.ui.SeeAllActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:label="@string/Studdoc"
+            />
         <activity
             android:name="com.example.studoc_clone.ui.SplashActivity"
             android:exported="true"
