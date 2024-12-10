@@ -14,6 +14,9 @@ public class FirebaseUtils {
     public static DatabaseReference getPacksRef() {
         return getDatabase().getReference("packs");
     }
+    public static DatabaseReference getGroupsRef() {
+        return getDatabase().getReference("groups");
+    }
 
     public static DatabaseReference getDocumentsRef() {
         return getDatabase().getReference("documents");

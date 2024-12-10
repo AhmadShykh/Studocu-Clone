@@ -8,6 +8,12 @@
             android:label="@string/Studdoc"
             />
         <activity
+            android:name="com.example.studoc_clone.ui.activity_create_group"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:label="@string/Studdoc"
+            />
+        <activity
             android:name="com.example.studoc_clone.ui.SettingsHome"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light"

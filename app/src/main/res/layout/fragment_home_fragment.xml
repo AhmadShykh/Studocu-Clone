@@ -467,6 +467,7 @@
                                 android:paddingHorizontal="16dp"
                                 android:paddingVertical="8dp"
                                 android:text="@string/see_all"
+                                
                                 android:textColor="@color/gray"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />

@@ -26,6 +26,7 @@ import com.example.studoc_clone.adapters.DocumentAdapter;
 import com.example.studoc_clone.adapters.PackAdapter;
 import com.example.studoc_clone.models.Document;
 import com.example.studoc_clone.models.Pack;
+import com.example.studoc_clone.models.User;
 import com.example.studoc_clone.ui.ProfileHome;
 import com.example.studoc_clone.ui.SettingsHome;
 import com.example.studoc_clone.utils.Consts;
@@ -394,10 +395,19 @@ public class home_fragment extends Fragment {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(requireContext(), "Welcome " + (user != null ? user.getDisplayName() : ""), Toast.LENGTH_SHORT).show();
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                        Toast.makeText(requireContext(), "Welcome " + (firebaseUser != null ? firebaseUser.getDisplayName() : ""), Toast.LENGTH_SHORT).show();
+                        FirebaseUtils.getUsersRef().push();
 
+                        User user = new User(
+                                firebaseUser.getUid(),
+                                firebaseUser.getDisplayName(),
+                                firebaseUser.getEmail(),
+                                firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().toString() : null,
+                                new ArrayList<>()
+                        );
 
+                        saveUserToFirebase(user);
                         onStart();
                     } else {
                         Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
@@ -406,7 +416,21 @@ public class home_fragment extends Fragment {
     }
 
 
+    private void saveUserToFirebase(User user) {
+        // Get a reference to the Firebase Realtime Database (or Firestore if you prefer)
+        DatabaseReference usersRef = FirebaseUtils.getUsersRef();
 
+        // Save the user under their UID
+        usersRef.child(user.getUserId()).setValue(user)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // User is successfully saved to Firebase
+                        Log.d("User", "User saved to Firebase");
+                    } else {
+                        Log.e("User", "Error saving user", task.getException());
+                    }
+                });
+    }
 
 
 
