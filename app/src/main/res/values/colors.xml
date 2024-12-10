@@ -25,14 +25,6 @@
     <color name="lighter_gray">#EDECEC</color>
     <color name="darker_gray">#2A2A2A</color>
     <color name="darkest_gray">#1A1A1A</color>
-
-
-    <color name="purple_name">#6956b2</color>
-    <color name="purple_sub_name">#998bc8</color>
-
-    <color name="green_name">#1e9a00</color>
-    <color name="green_sub_name">#cff6b7</color>
-
-
+    <color name="green">#8BC34A</color>
 
 </resources>
